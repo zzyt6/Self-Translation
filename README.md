@@ -1,6 +1,6 @@
 # Self Translation - 全能网页沉浸式翻译助手
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Author](https://img.shields.io/badge/author-zzyt6-orange)
+![Version](https://img.shields.io/badge/version-1.0.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Authors](https://img.shields.io/badge/authors-zzyt6%20%26%20ZedongCao-orange)
 
 **Self Translation** 是一款开源的基于大语言模型（LLM）的 Chrome 浏览器沉浸式翻译扩展。它打破了传统机翻的生硬感，利用 DeepSeek 等先进 AI 模型的理解能力，为您提供准确、流畅且保留原文排版的翻译体验。
 
@@ -123,4 +123,4 @@
 [MIT License](LICENSE) © 2025 zzyt6
 
 ---
-*Code by zzyt6: [https://github.com/zzyt6](https://github.com/zzyt6)*
+*Code by zzyt6 & ZedongCao*
