@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self Translation</title>
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --border: #334155;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 360px;
+      min-height: 500px;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      padding-bottom: 70px;
+      /* Space for footer */
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 2;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .version {
+      font-size: 11px;
+      color: var(--text-sub);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Main Settings Area */
+    .settings-container {
+      padding: 20px 24px;
+    }
+
+    .section-label {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Mode Grid */
+    .mode-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .mode-option {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .mode-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .mode-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .mode-icon {
+      font-size: 20px;
+    }
+
+    .mode-name {
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    /* Selected State */
+    .mode-option input:checked+.mode-card {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .mode-option input:checked+.mode-card .mode-name {
+      color: var(--primary);
+    }
+
+    /* Inputs & Selects */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .input-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px 12px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    select,
+    input[type="text"],
+    input[type="password"],
+    input[type="number"] {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      padding: 10px 0;
+      font-size: 14px;
+      outline: none;
+    }
+
+    select option {
+      background: var(--card-bg);
+      color: var(--text-main);
+    }
+
+    .icon-eye {
+      cursor: pointer;
+      opacity: 0.5;
+      padding: 5px;
+    }
+
+    .icon-eye:hover {
+      opacity: 1;
+    }
+
+    /* Footer / Save Button */
+    .fixed-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 24px;
+      background: rgba(15, 23, 42, 0.9);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(5px);
+    }
+
+    .btn-save {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-save:hover {
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-save:active {
+      transform: scale(0.98);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toast.show {
+      opacity: 1;
+      top: 80px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <svg class="logo-icon" viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10z" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M2 12h20" stroke-width="2" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+          stroke-width="2" />
+      </svg>
+      <h1>Self Translation</h1>
+    </div>
+    <span class="version">v1.0.0</span>
+  </header>
+
+  <div class="settings-container">
+    <!-- Mode Selection -->
+    <div class="form-group">
+      <div class="section-label">翻译模式</div>
+      <div class="mode-grid">
+        <label class="mode-option">
+          <input type="radio" name="translateMode" value="split" checked>
+          <div class="mode-card">
+            <span class="mode-icon">📖</span>
+            <span class="mode-name">分屏</span>
+          </div>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="translateMode" value="inline">
+          <div class="mode-card">
+            <span class="mode-icon">📝</span>
+            <span class="mode-name">原文</span>
+          </div>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="translateMode" value="bilingual">
+          <div class="mode-card">
+            <span class="mode-icon">☯</span>
+            <span class="mode-name">对照</span>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Provider Selection -->
+    <div class="form-group">
+      <div class="section-label">翻译服务</div>
+      <div class="input-wrapper">
+        <select id="provider">
+          <option value="deepseek">DeepSeek AI</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- API Key -->
+    <div class="form-group">
+      <div class="section-label">API Key</div>
+      <div class="input-wrapper">
+        <input type="password" id="apiKey" placeholder="sk-...">
+        <span class="icon-eye" id="toggleApiVisibility">👁️</span>
+      </div>
+    </div>
+
+    <!-- Concurrency -->
+    <div class="form-group">
+      <div class="section-label">并发数 (速度控制)</div>
+      <div class="input-wrapper">
+        <input type="number" id="concurrency" min="1" max="10" value="3">
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed-footer">
+    <button id="btn-save" class="btn-save">保存配置</button>
+  </div>
+
+  <div class="toast" id="toast">
+    <span>✨</span> <span id="toast-msg">已保存</span>
+  </div>
+
+  <script type="module" src="./popup.ts"></script>
+</body>
+
+</html>

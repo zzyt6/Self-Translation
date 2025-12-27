@@ -1,0 +1,196 @@
+/**
+ * Content Script 样式
+ * 用于翻译通知和双栏布局
+ */
+
+/* 翻译通知 */
+.llm-translate-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #fff;
+  z-index: 2147483647;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: llm-slide-in 0.3s ease-out;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.llm-translate-notification--info {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.llm-translate-notification--success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.llm-translate-notification--error {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+.llm-translate-notification--hide {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+@keyframes llm-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============ 双栏布局 ============ */
+
+.llm-translate-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: #0f0f1a;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
+}
+
+.llm-translate-column {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 24px 32px;
+  box-sizing: border-box;
+}
+
+.llm-translate-column-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  background: inherit;
+  z-index: 10;
+}
+
+.llm-translate-original {
+  background: #1a1a2e;
+  color: #b0b0c0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.llm-translate-original .llm-translate-column-title {
+  color: #9090a0;
+}
+
+.llm-translate-translated {
+  background: #16213e;
+  color: #e0e0f0;
+}
+
+.llm-translate-translated .llm-translate-column-title {
+  color: #a0c0ff;
+}
+
+/* 段落样式 */
+.llm-translate-paragraph {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  line-height: 1.7;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.llm-translate-original .llm-translate-paragraph {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.llm-translate-translated .llm-translate-paragraph {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+/* 段落高亮 */
+.llm-translate-paragraph.llm-translate-highlight {
+  background: rgba(102, 126, 234, 0.15) !important;
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateX(4px);
+}
+
+/* 翻译失败样式 */
+.llm-translate-paragraph.llm-translate-failed {
+  background: rgba(235, 51, 73, 0.1);
+  border-color: rgba(235, 51, 73, 0.3);
+  color: #f08090;
+}
+
+/* 恢复按钮 */
+.llm-translate-restore-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  z-index: 10000;
+}
+
+.llm-translate-restore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.llm-translate-restore-btn:active {
+  transform: translateY(0);
+}
+
+/* 滚动条样式 */
+.llm-translate-column::-webkit-scrollbar {
+  width: 8px;
+}
+
+.llm-translate-column::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.llm-translate-column::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.llm-translate-column::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .llm-translate-container {
+    flex-direction: column;
+  }
+
+  .llm-translate-column {
+    height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .llm-translate-restore-btn {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}

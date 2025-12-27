@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="20" fill="#003A70"/>
+  <rect x="12" y="12" width="104" height="104" rx="12" fill="none" stroke="white" stroke-width="6"/>
+  <text x="64" y="72" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="38" fill="white" text-anchor="middle">HUST</text>
+  <path d="M20 94 Q64 114 108 94" stroke="white" stroke-width="5" fill="none" stroke-linecap="round"/>
+</svg>
