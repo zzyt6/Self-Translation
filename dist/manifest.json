@@ -1,13 +1,14 @@
 {
     "manifest_version": 3,
     "name": "Self Translation",
-    "version": "1.0.0",
-    "description": "基于 LLM 的全能网页翻译助手。提供三种沉浸式模式：分屏对照 (Split)、原文替换 (Inline) 及智能中英双语 (Bilingual)。Code by zzyt6: https://github.com/zzyt6",
+    "version": "1.1.0",
+    "description": "基于 LLM 的全能网页翻译助手。提供三种沉浸式模式：分屏对照 (Split)、原文替换 (Inline) 及智能中英双语 (Bilingual)。新增 PDF、图片、字幕翻译功能。Code by zzyt6: https://github.com/zzyt6",
     "permissions": [
         "activeTab",
         "scripting",
         "storage",
-        "tabs"
+        "tabs",
+        "contextMenus"
     ],
     "action": {
         "default_popup": "popup/popup.html",

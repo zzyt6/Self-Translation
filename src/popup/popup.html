@@ -325,6 +325,39 @@
         <input type="number" id="concurrency" min="1" max="10" value="3">
       </div>
     </div>
+
+    <!-- Advanced Features -->
+    <div class="form-group">
+      <div class="section-label">高级功能</div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="enablePdfTranslation" checked style="width: auto; cursor: pointer;">
+          <span style="font-size: 14px; color: var(--text-main);">📝 PDF 翻译</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="enableImageTranslation" checked style="width: auto; cursor: pointer;">
+          <span style="font-size: 14px; color: var(--text-main);">🖼️ 图片翻译</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="enableSubtitleTranslation" checked style="width: auto; cursor: pointer;">
+          <span style="font-size: 14px; color: var(--text-main);">🎥 字幕翻译</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- OCR Settings -->
+    <div class="form-group">
+      <div class="section-label">OCR 设置</div>
+      <div class="input-wrapper" style="margin-bottom: 10px;">
+        <select id="ocrProvider">
+          <option value="tesseract">Tesseract.js (本地免费)</option>
+          <option value="ocr_space">OCR.space (在线 API)</option>
+        </select>
+      </div>
+      <div class="input-wrapper" id="ocrApiKeyWrapper" style="display: none;">
+        <input type="password" id="ocrApiKey" placeholder="OCR.space API Key (可选)">
+      </div>
+    </div>
   </div>
 
   <div class="fixed-footer">

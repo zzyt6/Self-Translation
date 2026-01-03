@@ -118,6 +118,16 @@ export interface PluginConfig {
     enableCache: boolean
     /** 翻译模式: split(分屏) | inline(原网页/替换) | bilingual(双语对照) */
     translateMode: 'split' | 'inline' | 'bilingual'
+    /** 是否启用 PDF 翻译 */
+    enablePdfTranslation?: boolean
+    /** 是否启用图片翻译 */
+    enableImageTranslation?: boolean
+    /** 是否启用字幕翻译 */
+    enableSubtitleTranslation?: boolean
+    /** OCR 提供商 */
+    ocrProvider?: 'tesseract' | 'ocr_space'
+    /** OCR API Key (用于 OCR.space) */
+    ocrApiKey?: string
 }
 
 /** 默认配置 */
@@ -128,6 +138,11 @@ export const DEFAULT_CONFIG: PluginConfig = {
     concurrency: 3,
     enableCache: true,
     translateMode: 'split',
+    enablePdfTranslation: true,
+    enableImageTranslation: true,
+    enableSubtitleTranslation: true,
+    ocrProvider: 'tesseract',
+    ocrApiKey: '',
 }
 
 // ============ 翻译进度 ============

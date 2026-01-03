@@ -4,16 +4,13 @@
  */
 
 import { LLMProvider, TextChunk, TranslatedChunk, PluginConfig } from '../shared/types'
-import { TranslationProvider, TranslateOptions, TranslateResult } from '../shared/provider'
+import { TranslationProvider, TranslateOptions } from '../shared/provider'
 import { DeepSeekProvider } from './deepseek'
 import { chunkArray, delay } from '../shared/utils'
 
 /** 提供商实例映射 */
 const providers: Record<LLMProvider, TranslationProvider> = {
     [LLMProvider.DEEPSEEK]: new DeepSeekProvider(),
-    [LLMProvider.QWEN]: new DeepSeekProvider(), // TODO: 实现通义千问
-    [LLMProvider.ZHIPU]: new DeepSeekProvider(), // TODO: 实现智谱
-    [LLMProvider.WENXIN]: new DeepSeekProvider(), // TODO: 实现文心
 }
 
 /** 翻译进度回调 */

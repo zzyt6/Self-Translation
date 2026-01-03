@@ -12,6 +12,12 @@ const elements = {
     providerSelect: () => document.getElementById('provider') as HTMLSelectElement,
     apiKeyInput: () => document.getElementById('apiKey') as HTMLInputElement,
     concurrencyInput: () => document.getElementById('concurrency') as HTMLInputElement,
+    enablePdfTranslation: () => document.getElementById('enablePdfTranslation') as HTMLInputElement,
+    enableImageTranslation: () => document.getElementById('enableImageTranslation') as HTMLInputElement,
+    enableSubtitleTranslation: () => document.getElementById('enableSubtitleTranslation') as HTMLInputElement,
+    ocrProvider: () => document.getElementById('ocrProvider') as HTMLSelectElement,
+    ocrApiKey: () => document.getElementById('ocrApiKey') as HTMLInputElement,
+    ocrApiKeyWrapper: () => document.getElementById('ocrApiKeyWrapper') as HTMLElement,
     btnSave: () => document.getElementById('btn-save') as HTMLButtonElement,
     toggleApiVisibility: () => document.getElementById('toggleApiVisibility') as HTMLElement,
     toast: () => document.getElementById('toast') as HTMLElement
@@ -78,6 +84,36 @@ function updateUI() {
     if (concurrencyInput) {
         concurrencyInput.value = String(currentConfig.concurrency)
     }
+
+    // 设置高级功能
+    const enablePdfTranslation = elements.enablePdfTranslation()
+    if (enablePdfTranslation) {
+        enablePdfTranslation.checked = currentConfig.enablePdfTranslation !== false
+    }
+
+    const enableImageTranslation = elements.enableImageTranslation()
+    if (enableImageTranslation) {
+        enableImageTranslation.checked = currentConfig.enableImageTranslation !== false
+    }
+
+    const enableSubtitleTranslation = elements.enableSubtitleTranslation()
+    if (enableSubtitleTranslation) {
+        enableSubtitleTranslation.checked = currentConfig.enableSubtitleTranslation !== false
+    }
+
+    // 设置 OCR 配置
+    const ocrProvider = elements.ocrProvider()
+    if (ocrProvider) {
+        ocrProvider.value = currentConfig.ocrProvider || 'tesseract'
+    }
+
+    const ocrApiKey = elements.ocrApiKey()
+    if (ocrApiKey) {
+        ocrApiKey.value = currentConfig.ocrApiKey || ''
+    }
+
+    // 根据 OCR 提供商显示/隐藏 API Key 输入框
+    updateOcrApiKeyVisibility()
 }
 
 function setupEventListeners() {
@@ -106,6 +142,11 @@ function setupEventListeners() {
         // 更新 UI 显示对应 provider 的 key
         elements.apiKeyInput().value = state.currentConfig.apiKeys[provider] || ''
     })
+
+    // OCR 提供商切换时显示/隐藏 API Key 输入框
+    elements.ocrProvider()?.addEventListener('change', () => {
+        updateOcrApiKeyVisibility()
+    })
 }
 
 async function handleSaveConfig() {
@@ -131,6 +172,13 @@ async function handleSaveConfig() {
         state.currentConfig.provider = provider
         state.currentConfig.apiKeys[provider] = apiKey
         state.currentConfig.concurrency = concurrency
+
+        // 收集高级功能配置
+        state.currentConfig.enablePdfTranslation = elements.enablePdfTranslation().checked
+        state.currentConfig.enableImageTranslation = elements.enableImageTranslation().checked
+        state.currentConfig.enableSubtitleTranslation = elements.enableSubtitleTranslation().checked
+        state.currentConfig.ocrProvider = elements.ocrProvider().value as 'tesseract' | 'ocr_space'
+        state.currentConfig.ocrApiKey = elements.ocrApiKey().value.trim()
 
         // KEY CHANGE: 保存到本地存储
         await chrome.storage.local.set({ pluginConfig: state.currentConfig })
@@ -167,5 +215,18 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
         setTimeout(() => {
             toast.classList.remove('show')
         }, 2000)
+    }
+}
+
+function updateOcrApiKeyVisibility() {
+    const ocrProvider = elements.ocrProvider().value
+    const wrapper = elements.ocrApiKeyWrapper()
+    
+    if (wrapper) {
+        if (ocrProvider === 'ocr_space') {
+            wrapper.style.display = 'flex'
+        } else {
+            wrapper.style.display = 'none'
+        }
     }
 }
